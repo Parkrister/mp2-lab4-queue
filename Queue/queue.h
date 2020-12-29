@@ -58,6 +58,10 @@ public:
 		else throw 0;
 	}
 
+	int GetHead() { return head; }
+	int GetSize() { return DataCount; }
+	int GetMaxSize() { return MaxSize; }
+
 	bool empty() {	return DataCount == 0;	}
 
 	bool full() { return DataCount == MaxSize; }
