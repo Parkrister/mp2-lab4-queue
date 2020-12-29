@@ -27,7 +27,7 @@ namespace FormQueue {
 		int PushCount;
 
 		TQueue<int>* pQueue;
-		int CenterX, CenterY, Widht, Height;
+		int CenterX, CenterY, Width, Height;
 		Graphics^ gr;
 		Random^ rnd1;
 		Pen^ BlackPen;
@@ -51,8 +51,8 @@ namespace FormQueue {
 			WhitePen = gcnew Pen(SystemColors::Control);
 			WhitePen->Width = 10.0F;
 
-			CenterX = 150;
-			CenterY = 200;
+			CenterX = 200;
+			CenterY = 300;
 			Width = Height = 200;
 			PopCount = PushCount = 0;
 			//
@@ -170,6 +170,7 @@ namespace FormQueue {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(124, 22);
 			this->textBox1->TabIndex = 6;
+			this->textBox1->Text = L"10";
 			// 
 			// textBox2
 			// 
@@ -177,6 +178,7 @@ namespace FormQueue {
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(124, 22);
 			this->textBox2->TabIndex = 7;
+			this->textBox2->Text = L"0";
 			// 
 			// textBox3
 			// 
@@ -184,6 +186,7 @@ namespace FormQueue {
 			this->textBox3->Name = L"textBox3";
 			this->textBox3->Size = System::Drawing::Size(124, 22);
 			this->textBox3->TabIndex = 8;
+			this->textBox3->Text = L"0,8";
 			// 
 			// textBox4
 			// 
@@ -222,6 +225,7 @@ namespace FormQueue {
 			// 
 			// timer1
 			// 
+			this->timer1->Interval = 50;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
 			// label6
@@ -241,6 +245,7 @@ namespace FormQueue {
 			this->textBox6->Name = L"textBox6";
 			this->textBox6->Size = System::Drawing::Size(124, 22);
 			this->textBox6->TabIndex = 15;
+			this->textBox6->Text = L"0,4";
 			this->textBox6->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox6_TextChanged);
 			// 
 			// label7
@@ -257,7 +262,7 @@ namespace FormQueue {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(686, 695);
+			this->ClientSize = System::Drawing::Size(767, 688);
 			this->Controls->Add(this->textBox6);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->label6);
@@ -288,8 +293,8 @@ namespace FormQueue {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		MaxSize = Convert::ToInt32(textBox1->Text);
 		Size = Convert::ToInt32(textBox2->Text);
-		p = Convert::ToDouble(textBox3->Text);
-		q = Convert::ToDouble(textBox6->Text);
+		p = Convert::ToDouble(textBox6->Text);
+		q = Convert::ToDouble(textBox3->Text);
 		//Создание и заполенение очереди
 		pQueue = new TQueue<int>(MaxSize);
 
@@ -300,17 +305,20 @@ namespace FormQueue {
 			DrawQueue();
 			timer1->Enabled = true;
 		}
+		else {
+			label6->Text = "Incorrect size";
+		}
 	}
 	///////////////////////
 	void DrawQueue() {
 		int start = 360 * pQueue->GetHead() / pQueue->GetMaxSize();
 		int finish = 360 * (pQueue->GetSize()) / pQueue->GetMaxSize();
-		gr->DrawArc(BlackPen, CenterX, CenterY, Widht, Height, start, finish);
+		gr->DrawArc(BlackPen, CenterX, CenterY, Width, Height, start, finish);
 	}
 	void Clean() {
 		int start = 360 * pQueue->GetHead() / pQueue->GetMaxSize();
 		int finish = 360 * (pQueue->GetSize()) / pQueue->GetMaxSize();
-		gr->DrawArc(WhitePen, CenterX, CenterY, Widht, Height, start, finish);
+		gr->DrawArc(WhitePen, CenterX, CenterY, Width, Height, start, finish);
 	}
 	///////////////////////
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -322,13 +330,13 @@ namespace FormQueue {
 
 		try {
 			if (rnd1->NextDouble() < p) {
-				pQueue->push(p);
-				PushCount++;
+				pQueue->pop();
+				PopCount++;
+				
 			}
 			if (rnd1->NextDouble() < q) {
-				pQueue->pop();
-				PushCount--;
-				PopCount++;
+				pQueue->push(p);
+				PushCount++;
 			}
 			label6->Text = "success";
 		}
