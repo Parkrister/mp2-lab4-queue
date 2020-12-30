@@ -9,9 +9,9 @@ using namespace std;
 int main()
 {
     TQueue<int> q(3);
-    q.push(2);
+    q.push(4);
+    std::cout << q.pop() << endl;
 
-    std::cout << q.front();
     return 0;
 }
 
