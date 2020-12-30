@@ -247,6 +247,8 @@ namespace FormQueue {
 		//Создание и заполенение очереди
 		pQueue = new TQueue<int>(MaxSize);
 
+		PopCount = PushCount = 0;
+
 		textBox4->Text = "0";
 		textBox5->Text = "0";
 
@@ -255,16 +257,16 @@ namespace FormQueue {
 			timer1->Enabled = false;
 		}
 		else
-		if (Size <= MaxSize) {
-			for (int i = 0; i < Size; i++) {
-				pQueue->push(i);
+			if (Size <= MaxSize) {
+				for (int i = 0; i < Size; i++) {
+					pQueue->push(i);
+				}
+				DrawQueue();
+				timer1->Enabled = true;
 			}
-			DrawQueue();
-			timer1->Enabled = true;
-		}
-		else {
-			label6->Text = "Incorrect size";
-		}
+			else {
+				label6->Text = "Incorrect size";
+			}
 	}
 	///////////////////////
 	void DrawQueue() {
@@ -278,10 +280,8 @@ namespace FormQueue {
 		gr->DrawArc(WhitePen, CenterX, CenterY, Width, Height, start, finish);
 	}
 	///////////////////////
-	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (timer1->Enabled) {
+	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 			timer1->Enabled = false;
-		}
 	}
 
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
